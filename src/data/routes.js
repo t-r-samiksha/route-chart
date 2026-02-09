@@ -75,7 +75,7 @@ export const routes = [
     {
         id: 5,
         routeNo: "5",
-        destination: ".CHEPAUK",
+        destination: "CHEPAUK",
         stops: [
             { name: "CHINTADRIPET -- CHINTADRIPET", time: "6.12" },
             { name: "MOUNT -- ROAD, MOUNT ROAD,", time: "6.14" },
