@@ -16,54 +16,70 @@ export const RouteItem = ({ route, searchTerm }) => {
     }, [searchTerm, route.stops]);
 
     return (
-        <div className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 shadow-lg hover:border-yellow-400/30 transition-all duration-300">
+        <div className={`rounded-xl overflow-hidden transition-all duration-300 border backdrop-blur-md ${isOpen
+            ? 'border-yellow-500/50 bg-black/80 shadow-[0_0_25px_rgba(234,179,8,0.15)] ring-1 ring-yellow-500/20'
+            : 'border-yellow-500/10 bg-black/40 hover:bg-black/60 hover:border-yellow-500/30'
+            }`}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between p-4 bg-gray-800 hover:bg-gray-750 transition-colors"
+                className="w-full p-6 flex items-center justify-between text-left group transition-all duration-300"
             >
-                <div className="flex items-center space-x-4">
-                    <div className="h-12 w-12 rounded-full bg-yellow-400 flex items-center justify-center text-black font-bold text-xl shadow-lg shadow-yellow-400/20">
+                <div className="flex items-center space-x-6">
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold transition-all duration-300 shadow-lg ${isOpen
+                        ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-yellow-500/30 scale-110'
+                        : 'bg-black/50 text-yellow-500 border border-yellow-500/20 group-hover:border-yellow-500/50 group-hover:text-yellow-400'
+                        }`}>
                         {route.routeNo}
                     </div>
-                    <div className="text-left">
-                        <h3 className="text-white font-bold text-lg tracking-wide uppercase flex items-center gap-2">
+                    <div>
+                        <h3 className={`text-xl font-bold tracking-wider uppercase transition-colors duration-300 ${isOpen ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.3)]' : 'text-gray-200 group-hover:text-yellow-200'
+                            }`}>
                             {route.destination}
                         </h3>
-                        <p className="text-gray-400 text-xs flex items-center gap-1">
-                            <Bus className="w-3 h-3" /> Route No. {route.routeNo}
-                        </p>
+                        <div className="flex items-center text-gray-500 text-sm mt-1 group-hover:text-gray-400 transition-colors">
+                            <Bus className={`w-4 h-4 mr-2 transition-colors ${isOpen ? 'text-yellow-500' : 'text-gray-600 group-hover:text-yellow-500/50'}`} />
+                            <span className="tracking-wide">Route No. {route.routeNo}</span>
+                        </div>
                     </div>
                 </div>
-                <div className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                    <ChevronDown className="text-yellow-400 w-6 h-6" />
-                </div>
+                {isOpen ? (
+                    <ChevronUp className="w-6 h-6 text-yellow-500 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]" />
+                ) : (
+                    <ChevronDown className="w-6 h-6 text-gray-600 group-hover:text-yellow-500/50 transition-colors" />
+                )}
             </button>
 
-            <div
-                className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
-                    }`}
-            >
-                <div className="p-4 bg-gray-900/50 border-t border-gray-700">
-                    <div className="flex items-center gap-2 mb-4 text-yellow-400 text-sm font-semibold uppercase tracking-wider">
-                        <MapPin className="w-4 h-4" /> Stops ({route.stops.length})
+            {isOpen && (
+                <div className="border-t border-yellow-500/10 bg-black/40 p-6 backdrop-blur-sm">
+                    <div className="flex items-center mb-6 text-yellow-500/80 text-sm font-bold tracking-[0.2em] uppercase">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        <span>Stops ({route.stops.length})</span>
                     </div>
-                    <div className="space-y-3 relative before:content-[''] before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[2px] before:bg-gray-700">
+
+                    <div className="relative pl-2 space-y-6">
+                        {/* Vertical Line */}
+                        <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-yellow-500/20"></div>
+
                         {route.stops.map((stop, index) => (
-                            <div key={index} className="flex items-start gap-4 relative pl-6">
-                                <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-yellow-400 bg-gray-900 z-10"></div>
-                                <div className="flex-1 pb-2 border-b border-gray-800/50 last:border-0">
-                                    <div className="text-gray-200 font-medium">{stop.name}</div>
-                                    {stop.time && (
-                                        <div className="text-gray-500 text-xs flex items-center gap-1 mt-1">
-                                            <Clock className="w-3 h-3" /> {stop.time}
-                                        </div>
-                                    )}
+                            <div key={index} className="relative flex items-start group">
+                                {/* Timeline Dot */}
+                                <div className="absolute left-[5px] mt-1.5 w-3.5 h-3.5 rounded-full border-2 border-yellow-500 bg-black z-10 group-hover:bg-yellow-500 group-hover:shadow-[0_0_8px_rgba(234,179,8,0.6)] transition-all duration-300"></div>
+
+                                {/* Content */}
+                                <div className="ml-10">
+                                    <h4 className="text-gray-200 font-medium tracking-wide group-hover:text-yellow-400 transition-colors duration-300 text-sm md:text-base">
+                                        {stop.name}
+                                    </h4>
+                                    <div className="flex items-center text-gray-500 text-xs mt-1 font-mono group-hover:text-yellow-500/70 transition-colors">
+                                        <Clock className="w-3 h-3 mr-1.5" />
+                                        {stop.time}
+                                    </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
