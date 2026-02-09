@@ -63,14 +63,16 @@ export const RouteItem = ({ route, searchTerm }) => {
                         {route.stops.map((stop, index) => (
                             <div key={index} className="relative flex items-start group">
                                 {/* Timeline Dot */}
-                                <div className="absolute left-[5px] mt-1.5 w-3.5 h-3.5 rounded-full border-2 border-yellow-500 bg-black z-10 group-hover:bg-yellow-500 group-hover:shadow-[0_0_8px_rgba(234,179,8,0.6)] transition-all duration-300"></div>
+                                <div className="absolute left-[-3px] mt-1.5 w-3.5 h-3.5 rounded-full border-2 border-yellow-500 bg-black z-10 group-hover:bg-yellow-500 group-hover:shadow-[0_0_8px_rgba(234,179,8,0.6)] transition-all duration-300"></div>
 
                                 {/* Content */}
                                 <div className="ml-10">
                                     <h4 className="text-gray-200 font-medium tracking-wide group-hover:text-yellow-400 transition-colors duration-300 text-sm md:text-base">
                                         {stop.name}
                                     </h4>
-                                    <div className="flex items-center text-gray-500 text-xs mt-1 font-mono group-hover:text-yellow-500/70 transition-colors">
+                                    <div className="flex items-center text-gray-300 text-sm md:text-base mt-1 font-semibold tracking-wide 
+group-hover:text-yellow-400 transition-colors duration-300">
+
                                         <Clock className="w-3 h-3 mr-1.5" />
                                         {stop.time}
                                     </div>
